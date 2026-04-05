@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infamous Studio - Premium Tech Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ==========================================
+       CSS VARIABLES & RESET
+    ========================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --bg-dark: #06030a;
+      --bg-card: #0f0818;
+      --primary: #a855f7;
+      --primary-light: #c084fc;
+      --accent: #d946ef;
+      --accent-pink: #ec4899;
+      --neon-blue: #3b82f6;
+      --neon-cyan: #06b6d4;
+      --success: #22c55e;
+      --text: #f8f4ff;
+      --text-muted: #a094b0;
+      --border: #251838;
+      --gradient-1: linear-gradient(135deg, #a855f7, #d946ef);
+      --gradient-2: linear-gradient(135deg, #3b82f6, #06b6d4);
+      --gradient-3: linear-gradient(135deg, #22c55e, #06b6d4);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+    /* ==========================================
+       CUSTOM SCROLLBAR
+    ========================================== */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { 
+      background: linear-gradient(180deg, var(--primary), var(--accent)); 
+      border-radius: 5px; 
+    }
+    ::-webkit-scrollbar-thumb:hover { 
+      background: linear-gradient(180deg, var(--primary-light), var(--accent-pink)); 
+    }
+    /* ==========================================
+       BACKGROUND EFFECTS
+    ========================================== */
+    .bg-effects {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    /* Grid Pattern */
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(168, 85, 247, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    /* Animated Gradient Orbs */
+    .gradient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      animation: orb-float 15s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.25), transparent 70%);
+      top: -10%;
+      left: -10%;
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.2), transparent 70%);
+      bottom: -5%;
+      right: -5%;
+      animation-delay: -5s;
+    }
+    .orb-3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 70%);
+      top: 40%;
+      right: 20%;
+      animation-delay: -10s;
+    }
+    @keyframes orb-float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.05); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(20px, 30px) scale(1.02); }
+    }
+    /* Particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+    }
+    .particle {
+      position: absolute;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 50%;
+      opacity: 0;
+      animation: particle-float 12s linear infinite;
+    }
+    @keyframes particle-float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      5% { opacity: 0.6; }
+      95% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    /* Star Field */
+    .stars {
+      position: absolute;
+      inset: 0;
+    }
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+    /* ==========================================
+       NAVIGATION
+    ========================================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(6, 3, 10, 0.85);
+      backdrop-filter: blur(25px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    nav.scroll {
+      padding: 0.75rem 2rem;
+      background: rgba(6, 3, 10, 0.95);
+    }
+    .nav-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 900;
+      font-size: 1.4rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--gradient-1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-1);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--text);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .nav-cta {
+      background: var(--gradient-1);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+    }
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
+    }
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    /* ==========================================
+       HERO SECTION
+    ========================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+      z-index: 10;
+    }
+    .hero-content {
+      max-width: 850px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--primary-light);
+      margin-bottom: 1.5rem;
+      animation: fade-in 0.6s ease-out;
+    }
+    .hero-badge .pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    .hero-logo {
+      width: 130px;
+      height: 130px;
+      background: linear-gradient(135deg, var(--primary), var(--accent), var(--neon-blue));
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      font-weight: 900;
+      margin: 0 auto 2rem;
+      animation: logo-glow 3s ease-in-out infinite, logo-enter 0.8s ease-out;
+      box-shadow: 0 0 80px rgba(168, 85, 247, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: translateX(-100%);
+      animation: shine 3s infinite;
+    }
+    @keyframes shine {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+    }
+    @keyframes logo-glow {
+      0%, 100% { box-shadow: 0 0 60px rgba(168, 85, 247, 0.5); }
+      50% { box-shadow: 0 0 100px rgba(168, 85, 247, 0.8); }
+    }
+    @keyframes logo-enter {
+      0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--text), var(--primary-light), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      animation: fade-in 0.6s ease-out 0.3s both;
+    }
+    .typing-text {
+      font-size: 1.35rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      min-height: 2rem;
+      animation: fade-in 0.6s ease-out 0.5s both;
+    }
+    .typing-text .cursor {
+      color: var(--primary);
+      font-weight: 700;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fade-in 0.6s ease-out 0.7s both;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+      animation: fade-in 0.6s ease-out 0.9s both;
+    }
+    .btn-primary {
+      background: var(--gradient-1);
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s;
+    }
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(168, 85, 247, 0.5);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid rgba(168, 85, 247, 0.5);
+      color: var(--text);
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover {
+      border-color: var(--primary);
+      background: rgba(168, 85, 247, 0.15);
+      transform: translateY(-3px);
+    }
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      animation: fade-in 0.6s ease-out 1.1s both;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+    .trust-badge:hover {
+      transform: scale(1.08);
+    }
+    .trust-badge i {
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+    .trust-badge span {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+    .scroll-indicator .mouse {
+      width: 26px;
+      height: 42px;
+      border: 2px solid rgba(168, 85, 247, 0.5);
+      border-radius: 13px;
+      display: flex;
+      justify-content: center;
+      padding-top: 7px;
+    }
+    .scroll-indicator .wheel {
+      width: 4px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 2px;
+      animation: scroll 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+    @keyframes scroll {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(10px); opacity: 0.5; }
+    }
+    /* ==========================================
+       SERVICES SECTION
+    ========================================== */
+    .services {
+      padding: 7rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .section-header h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    /* Bundle Cards */
+    .bundle-section {
+      margin-bottom: 4rem;
+    }
+    .bundle-title {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--text);
+    }
+    .bundles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .bundle-card {
+      background: rgba(15, 8, 24, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .bundle-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .bundle-card:hover {
+      border-color: rgba(168, 85, 247, 0.6);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(168, 85, 247, 0.2);
+    }
+    .bundle-card:hover::before {
+      opacity: 1;
+    }
+    .bundle-card.popular {
+      border-color: var(--primary);
+    }
+    .bundle-card.popular::after {
+      content: '🔥 POPULAR';
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--gradient-1);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .bundle-card:hover .bundle-price {
+      transform: scale(1.1);
+    }
+    .bundle-price {
+      transition: transform 0.3s;
+    }
+    .bundle-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .bundle-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .bundle-price {
+      font-size: 1.1rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .bundle-features {
+      list-style: none;
+    }
+    .bundle-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .bundle-features li i {
+      color: var(--success);
+      font-size: 0.8rem;
+    }
+    .bundle-features li.disabled {
+      opacity: 0.4;
+    }
+    .bundle-features li.disabled i {
+      color: var(--text-muted);
+    }
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .service-card {
+      background: rgba(15, 8, 24, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-1);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+      transform-origin: left;
+    }
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+    .service-card:hover {
+      border-color: rgba(168, 85, 247, 0.6);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(168, 85, 247, 0.15);
+    }
+    .service-card:hover .service-icon i {
+      transform: scale(1.2) rotate(5deg);
+    }
+    .service-icon i {
+      transition: transform 0.4s;
+    }
+    .service-price {
+      display: inline-block;
+      background: var(--gradient-1);
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s;
+    }
+    .service-card:hover .service-price {
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
+    }
+    .service-card.coming-soon {
+      opacity: 0.7;
+    }
+    .coming-soon-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(217, 70, 239, 0.2);
+      color: var(--accent);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    /* Floating Animations */
+    .floating-animations {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 160px;
+      height: 160px;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .floating-element {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      animation: float-in 4s ease-in-out infinite;
+    }
+    @keyframes float-in {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+      50% { transform: translateY(-15px) rotate(5deg); opacity: 0.7; }
+    }
+    /* Linux */
+    .linux-element {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    /* Minecraft */
+    .mc-block {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+    .mc-grass { background: linear-gradient(180deg, #22c55e 30%, #854d0e 30%); }
+    .mc-diamond { background: linear-gradient(135deg, #06b6d4, #0ea5e9); }
+    .mc-gold { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+    .mc-redstone { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .mc-lapis { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    /* Discord */
+    .discord-element {
+      background: rgba(88, 101, 242, 0.2);
+      color: #5865f2;
+      border: 1px solid rgba(88, 101, 242, 0.3);
+      border-radius: 20px;
+      font-size: 0.65rem;
+    }
+    /* Code */
+    .code-element {
+      background: rgba(168, 85, 247, 0.2);
+      color: var(--primary);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      font-family: 'Courier New', monospace;
+    }
+    /* Web */
+    .web-element {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    /* SellAuth */
+    .sellauth-element {
+      background: rgba(236, 72, 153, 0.2);
+      color: var(--accent-pink);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+    /* VPS */
+    .vps-element {
+      background: rgba(6, 182, 212, 0.2);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+    .service-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .service-icon i {
+      font-size: 2rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .service-price {
+      display: inline-block;
+      background: var(--gradient-1);
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .service-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .service-card > p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    .service-features {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+    .service-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+    .service-features li i {
+      color: var(--primary);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+    .service-btn {
+      width: 100%;
+      background: var(--gradient-1);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .service-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+    }
+    /* ==========================================
+       TESTIMONIALS
+    ========================================== */
+    .testimonials {
+      padding: 7rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+    .testimonial-card {
+      background: rgba(15, 8, 24, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+    .testimonial-card:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-3px);
+    }
+    .testimonial-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .stars {
+      color: #fbbf24;
+      display: flex;
+      gap: 2px;
+    }
+    .stars i {
+      font-size: 0.85rem;
+    }
+    .quote-icon {
+      color: var(--primary);
+      opacity: 0.5;
+    }
+    .quote-icon i {
+      font-size: 1.25rem;
+    }
+    .testimonial-text {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-style: italic;
+      line-height: 1.6;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .author-avatar {
+      width: 42px;
+      height: 42px;
+      background: var(--gradient-1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .author-info h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .author-info p {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      padding: 2.5rem;
+      background: rgba(15, 8, 24, 0.8);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    /* ==========================================
+       FOOTER
+    ========================================== */
+    footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 10;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .footer-logo .logo-icon {
+      width: 34px;
+      height: 34px;
+      font-size: 1rem;
+    }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+    .footer-social a {
+      width: 42px;
+      height: 42px;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .footer-social a:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+    }
+    /* ==========================================
+       RESPONSIVE DESIGN
+    ========================================== */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      
+      .hero-title { font-size: 2.8rem; }
+      .hero-logo { width: 100px; height: 100px; font-size: 3rem; }
+      .typing-text { font-size: 1rem; }
+      
+      .section-header h2 { font-size: 2.2rem; }
+      
+      .services-grid, .bundles-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .trust-badges { gap: 1rem; }
+      .trust-badge { font-size: 0.8rem; }
+      
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-outline { width: 100%; max-width: 280px; }
+      .stats-bar { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Effects -->
+  <div class="bg-effects">
+    <div class="bg-grid"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="particles" id="particles"></div>
+    <div class="stars" id="stars"></div>
+  </div>
+  
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">
+        <div class="logo-icon">V</div>
+        <span>Infamous Studio</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+      </ul>
+      <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="nav-cta">
+        <i class="fab fa-discord"></i> Join Discord
+      </a>
+      <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse"></span>
+        <span>Premium Tech Services</span>
+      </div>
+      <div class="hero-logo">I</div>
+      <h1 class="hero-title">Infamous Studio</h1>
+      <div class="typing-text">
+        <span id="typed-text"></span><span class="cursor">|</span>
+      </div>
+      <p class="hero-subtitle">
+        Premium technical services for your gaming servers, bots, websites & more.
+        Quality work at affordable prices with 24/7 support.
+      </p>
+      <div class="hero-buttons">
+        <a href="#services" class="btn-primary">View Services</a>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="btn-outline">
+          <i class="fab fa-discord"></i> Join Discord
+        </a>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>100% Secure</span>
+        </div>
+        <div class="trust-badge">
+          <i class="fas fa-clock"></i>
+          <span>24-72h Delivery</span>
+        </div>
+        <div class="trust-badge">
+          <i class="fas fa-undo"></i>
+          <span>7-Day Refund</span>
+        </div>
+        <div class="trust-badge">
+          <i class="fas fa-headset"></i>
+          <span>24/7 Support</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator" onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">
+      <div class="mouse"><div class="wheel"></div></div>
+    </div>
+  </section>
+  
+  <!-- Services Section -->
+  <section class="services" id="services">
+    <div class="section-header">
+      <h2>Our Services</h2>
+      <p>Premium technical services to power your projects at affordable prices.</p>
+    </div>
+    
+    <!-- Bundle Section -->
+    <div class="bundle-section">
+      <h3 class="bundle-title">Quick Bundles ⚡</h3>
+      <div class="bundles-grid">
+        <!-- Basic Bundle -->
+        <div class="bundle-card">
+          <div class="bundle-header">
+            <span class="bundle-name">🟢 Basic</span>
+            <span class="bundle-price">₹499</span>
+          </div>
+          <ul class="bundle-features">
+            <li><i class="fas fa-check"></i> Minecraft Server Setup</li>
+            <li><i class="fas fa-check"></i> 10 Plugins Configured</li>
+            <li><i class="fas fa-check"></i> Basic Optimization</li>
+            <li class="disabled"><i class="fas fa-times"></i> Anti-Cheat</li>
+            <li class="disabled"><i class="fas fa-times"></i> Custom Plugins</li>
+          </ul>
+          <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+        </div>
+        
+        <!-- Premium Bundle -->
+        <div class="bundle-card p">
+          <div class="bundle-header">
+            <span class="bundle-name">💎 Premium</span>
+            <span class="bundle-price">₹999</span>
+          </div>
+          <ul class="bundle-features">
+            <li><i class="fas fa-check"></i> Minecraft Server Setup</li>
+            <li><i class="fas fa-check"></i> 25+ Plugins Configured</li>
+            <li><i class="fas fa-check"></i> Advanced Optimization</li>
+            <li><i class="fas fa-check"></i> Anti-Cheat Setup</li>
+            <li><i class="fas fa-check"></i> 1 Custom Plugin</li>
+          </ul>
+          <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+        </div>
+        
+        <!-- Pro+ Bundle -->
+        <div class="bundle-card">
+          <div class="bundle-header">
+            <span class="bundle-name">🔴 Pro+</span>
+            <span class="bundle-price">₹1,499</span>
+          </div>
+          <ul class="bundle-features">
+            <li><i class="fas fa-check"></i> Everything in Pro</li>
+            <li><i class="fas fa-check"></i> VPS Server Setup</li>
+            <li><i class="fas fa-check"></i> Discord Bot Setup</li>
+            <li><i class="fas fa-check"></i> 5 Custom Plugins</li>
+            <li><i class="fas fa-check"></i> Priority Support</li>
+          </ul>
+          <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Services Grid -->
+    <div class="services-grid">
+      <!-- Linux Server -->
+      <div class="service-card" data-service="linux">
+        <div class="floating-animations" id="linux-float"></div>
+        <div class="service-icon">
+          <i class="fab fa-linux"></i>
+        </div>
+        <span class="service-price">₹499+</span>
+        <h3>Linux Server Management</h3>
+        <p>Complete server setup, security hardening & optimization.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> VPS/Dedicated Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Security Hardening</li>
+          <li><i class="fas fa-chevron-right"></i> Performance Tuning</li>
+          <li><i class="fas fa-chevron-right"></i> 24/7 Monitoring</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- Minecraft Server -->
+      <div class="service-card" data-service="minecraft">
+        <div class="floating-animations" id="mc-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-cube"></i>
+        </div>
+        <span class="service-price">₹299+</span>
+        <h3>Minecraft Server Setup</h3>
+        <p>Full server config with plugins & optimization.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> Paper/Spigot/Forge</li>
+          <li><i class="fas fa-chevron-right"></i> Plugin Configuration</li>
+          <li><i class="fas fa-chevron-right"></i> Anti-Cheat Setup</li>
+          <li><i class="fas fa-chevron-right"></i> World Optimization</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- Discord Bot -->
+      <div class="service-card" data-service="discord">
+        <div class="floating-animations" id="discord-float"></div>
+        <div class="service-icon">
+          <i class="fab fa-discord"></i>
+        </div>
+        <span class="service-price">₹299+</span>
+        <h3>Discord Bot & Automation</h3>
+        <p>Custom bots, moderation & automation.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> Custom Bot Development</li>
+          <li><i class="fas fa-chevron-right"></i> Moderation Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Auto-Roles & Welcomes</li>
+          <li><i class="fas fa-chevron-right"></i> Ticket Systems</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- Custom Plugins -->
+      <div class="service-card" data-service="plugins">
+        <div class="floating-animations" id="code-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <span class="service-price">₹599-3999</span>
+        <h3>Custom Plugins & Mods</h3>
+        <p>Tailor-made plugins for your needs.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> Bukkit/Spigot Plugins</li>
+          <li><i class="fas fa-chevron-right"></i> Discord.js Bots</li>
+          <li><i class="fas fa-chevron-right"></i> Custom Commands</li>
+          <li><i class="fas fa-chevron-right"></i> API Integrations</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- Web Development -->
+      <div class="service-card" data-service="web">
+        <div class="floating-animations" id="web-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-globe"></i>
+        </div>
+        <span class="service-price">₹399-9999+</span>
+        <h3>Web Development</h3>
+        <p>Modern & responsive websites.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> Portfolio Websites</li>
+          <li><i class="fas fa-chevron-right"></i> Landing Pages</li>
+          <li><i class="fas fa-chevron-right"></i> Custom Development</li>
+          <li><i class="fas fa-chevron-right"></i> Template-Based</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- SellAuth Services -->
+      <div class="service-card" data-service="sellauth">
+        <div class="floating-animations" id="sellauth-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <span class="service-price">₹699+</span>
+        <h3>SellAuth Services</h3>
+        <p>Complete SellAuth store solutions.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> Store Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Product Listing</li>
+          <li><i class="fas fa-chevron-right"></i> Full Management</li>
+          <li><i class="fas fa-chevron-right"></i> Sales Optimization</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- VPS Services -->
+      <div class="service-card" data-service="vps">
+        <div class="floating-animations" id="vps-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-server"></i>
+        </div>
+        <span class="service-price">₹399+</span>
+        <h3>VPS Setup & Management</h3>
+        <p>Professional VPS solutions.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> VPS Deployment & Optimization</li>
+          <li><i class="fas fa-chevron-right"></i> Advanced Security</li>
+          <li><i class="fas fa-chevron-right"></i> Performance Tuning & Cache Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Auto Backups & Monitoring</li>
+          <li><i class="fas fa-chevron-right"></i> Web Server & Database Optimization</li>
+          <li><i class="fas fa-chevron-right"></i> Docker & Panel Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Minecraft Server Optimization & Config</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- Discord Server Management -->
+      <div class="service-card" data-service="dc-manage">
+        <div class="floating-animations" id="dcmanage-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <span class="service-price">₹399+</span>
+        <h3>Discord Server Management</h3>
+        <p>Full Discord server management & maintenance.</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> Server Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Role Management</li>
+          <li><i class="fas fa-chevron-right"></i> Channel Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Bot Configuration</li>
+          <li><i class="fas fa-chevron-right"></i> Anti-Raid Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Anti-Nuke Setup</li>
+          <li><i class="fas fa-chevron-right"></i> 24/7 Mod Team</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+      
+      <!-- Web Templates - NEW -->
+      <div class="service-card" data-service="web-templates">
+        <div class="floating-animations" id="templates-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-paint-brush"></i>
+        </div>
+        <span class="service-price" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">₹249-3999</span>
+        <h3>🎨 Web Templates</h3>
+        <p>150+ ready-made website templates for all your needs!</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i>Gaming & Minecraft Server Websites</li>
+          <li><i class="fas fa-chevron-right"></i>Gaming & Minecraft Server Websites</li>
+          <li><i class="fas fa-chevron-right"></i> Minecraft Server Stores</li>
+          <li><i class="fas fa-chevron-right"></i> Discord Server Landing Pages</li>
+          <li><i class="fas fa-chevron-right"></i> Fully Customizable Layouts</li>
+          <li><i class="fas fa-chevron-right"></i>Fast Delivery & Easy Setup</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Get Templates</a>
+      </div>
+      
+      <!-- Premium Complete Package -->
+      <div class="service-card" data-service="premium">
+        <div class="floating-animations" id="premium-float"></div>
+        <div class="service-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <span class="service-price" style="background: linear-gradient(135deg, #ffd700, #ff8c00);">₹10,000+</span>
+        <h3>💎 Premium Complete Package</h3>
+        <p>Everything you need - full solution!</p>
+        <ul class="service-features">
+          <li><i class="fas fa-chevron-right"></i> Minecraft Server (Unlimited)</li>
+          <li><i class="fas fa-chevron-right"></i> VPS Server Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Custom Discord Bot</li>
+          <li><i class="fas fa-chevron-right"></i> 10+ Custom Plugins</li>
+          <li><i class="fas fa-chevron-right"></i> SellAuth Store Setup</li>
+          <li><i class="fas fa-chevron-right"></i> Website Development</li>
+          <li><i class="fas fa-chevron-right"></i> Priority 24/7 Support</li>
+          <li><i class="fas fa-chevron-right"></i> Monthly Management</li>
+        </ul>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank" class="service-btn">Order Now</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-header">
+      <h2>Customer Reviews</h2>
+      <p>What our customers say about us.</p>
+    </div>
+    
+    <div class="testimonials-grid">
+      <!-- Review 1 -->
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <span class="quote-icon"><i class="fas fa-quote-right"></i></span>
+        </div>
+        <p class="testimonial-text">"Got my Minecraft server setup from Infamous Studio - zero lag, smooth gameplay! 🔥 Highly recommended!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">A</div>
+          <div class="author-info">
+            <h4>Aryan</h4>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Review 2 -->
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        <p class="testimonial-text">"Affordable pricing + good performance. Definitely using again for my next project!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">R</div>
+          <div class="author-info">
+            <h4>Rohan</h4>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Review 3 -->
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        <p class="testimonial-text">"Very friendly support! They explained everything clearly. Setup was done faster than expected!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">V</div>
+          <div class="author-info">
+            <h4>Vikram</h4>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Review 4 -->
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        <p class="testimonial-text">"Web development service is solid 💯 Got my portfolio made - looks clean and modern!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div class="author-info">
+            <h4>Sneha</h4>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Review 5 -->
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        <p class="testimonial-text">"Linux VPS setup done perfectly! SSH, firewall everything configured. Great for beginners!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">K</div>
+          <div class="author-info">
+            <h4>Kabir</h4>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Review 6 -->
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+        <p class="testimonial-text">"Discord server fully set up with roles, bots & channels. Everything looks professional now!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">M</div>
+          <div class="author-info">
+            <h4>Manish P.</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value">35+</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">4.9/5</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">38+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">24/7</div>
+        <div class="stat-label">Support Available</div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <div class="logo-icon">V</div>
+        <span>Infamous Studio</span>
+      </div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank">Discord</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://discord.com/invite/7WMHh56Mvv" target="_blank">
+          <i class="fab fa-discord"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    // ==========================================
+    // PARTICLES BACKGROUND
+    // ==========================================
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 40; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = (Math.random() * 4 + 2) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        particle.style.animationDelay = (Math.random() * 15) + 's';
+        particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        container.appendChild(particle);
+      }
+    }
+    
+    // ==========================================
+    // STARS BACKGROUND
+    // ==========================================
+    function createStars() {
+      const container = document.getElementById('stars');
+      for (let i = 0; i < 80; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = (Math.random() * 3) + 's';
+        container.appendChild(star);
+      }
+    }
+    
+    // ==========================================
+    // TYPING ANIMATION
+    // ==========================================
+    function typeText() {
+      const texts = [
+        "Professional Linux Solutions",
+        "Minecraft Server Experts",
+        "Discord Bot Developers",
+        "Web Development Masters"
+      ];
+      const element = document.getElementById('typed-text');
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      
+      function type() {
+        const currentText = texts[textIndex];
+        
+        if (isDeleting) {
+          element.textContent = currentText.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          element.textContent = currentText.substring(0, charIndex + 1);
+          charIndex++;
+        }
+        
+        let typeSpeed = isDeleting ? 30 : 50;
+        
+        if (!isDeleting && charIndex === currentText.length) {
+          typeSpeed = 2000;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+          typeSpeed = 500;
+        }
+        
+        setTimeout(type, typeSpeed);
+      }
+      
+      type();
+    }
+    
+    // ==========================================
+    // FLOATING ANIMATIONS
+    // ==========================================
+    function createFloatingAnimations() {
+      // Linux Commands
+      const linuxEls = ['ls -la', 'cd /', 'sudo', 'apt-get', 'ssh', 'vim', 'grep'];
+      const linuxFloat = document.getElementById('linux-float');
+      linuxEls.forEach((cmd, i) => {
+        const el = document.createElement('div');
+        el.className = 'floating-element linux-element';
+        el.textContent = cmd;
+        el.style.top = (Math.random() * 70 + 15) + '%';
+        el.style.right = (Math.random() * 70 + 15) + '%';
+        el.style.animationDelay = (i * 0.35) + 's';
+        linuxFloat.appendChild(el);
+      });
+      
+      // Minecraft Blocks
+      const mcFloat = document.getElementById('mc-float');
+      const blocks = ['mc-grass', 'mc-diamond', 'mc-gold', 'mc-redstone', 'mc-lapis'];
+      for (let i = 0; i < 8; i++) {
+        const el = document.createElement('div');
+        el.className = 'floating-element mc-block ' + blocks[i % blocks.length];
+        el.style.top = (Math.random() * 70 + 15) + '%';
+        el.style.right = (Math.random() * 70 + 15) + '%';
+        el.style.animationDelay = (i * 0.4) + 's';
+        mcFloat.appendChild(el);
+      }
+      
+      // Discord Elements
+      const discordEls = ['@everyone', '#general', '@mod', '✅', '#bot'];
+      const discordFloat = document.getElementById('discord-float');
+      discordEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element discord-element';
+        div.textContent = el;
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.4) + 's';
+        discordFloat.appendChild(div);
+      });
+      
+      // Code Elements
+      const codeEls = ['<div>', '{...}', 'const', '=>', 'async', 'import'];
+      const codeFloat = document.getElementById('code-float');
+      codeEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element code-element';
+        div.textContent = el;
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.35) + 's';
+        codeFloat.appendChild(div);
+      });
+      
+      // Web Elements
+      const webEls = ['HTML', 'CSS', 'JS', 'React', 'API', 'REST'];
+      const webFloat = document.getElementById('web-float');
+      webEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element web-element';
+        div.textContent = el;
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.4) + 's';
+        webFloat.appendChild(div);
+      });
+      
+      // SellAuth Elements
+      const sellauthEls = ['Product', 'Order', '$', 'Sale', 'Store'];
+      const sellauthFloat = document.getElementById('sellauth-float');
+      sellauthEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element sellauth-element';
+        div.textContent = el;
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.4) + 's';
+        sellauthFloat.appendChild(div);
+      });
+      
+      // VPS Elements
+      const vpsEls = ['VPS', 'SSH', 'Firewall', 'Backup'];
+      const vpsFloat = document.getElementById('vps-float');
+      vpsEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element vps-element';
+        div.textContent = el;
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.4) + 's';
+        vpsFloat.appendChild(div);
+      });
+      
+      // Discord Management Elements
+      const dcManageEls = ['Roles', 'Channels', 'Perms', 'Mod'];
+      const dcManageFloat = document.getElementById('dcmanage-float');
+      dcManageEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element discord-element';
+        div.textContent = el;
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.4) + 's';
+        dcManageFloat.appendChild(div);
+      });
+
+      // Web Templates Elements
+      const templatesEls = ['🎨', '150+', 'Template', 'Design', 'Premium'];
+      const templatesFloat = document.getElementById('templates-float');
+      templatesEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element web-element';
+        div.textContent = el;
+        div.style.fontSize = '1rem';
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.4) + 's';
+        templatesFloat.appendChild(div);
+      });
+      
+      // Premium Elements
+      const premiumEls = ['💎', 'Premium', 'VIP', 'Elite', '⭐'];
+      const premiumFloat = document.getElementById('premium-float');
+      premiumEls.forEach((el, i) => {
+        const div = document.createElement('div');
+        div.className = 'floating-element code-element';
+        div.textContent = el;
+        div.style.fontSize = '1rem';
+        div.style.top = (Math.random() * 70 + 15) + '%';
+        div.style.right = (Math.random() * 70 + 15) + '%';
+        div.style.animationDelay = (i * 0.4) + 's';
+        premiumFloat.appendChild(div);
+      });
+    }
+    
+    // ==========================================
+    // SMOOTH SCROLL
+    // ==========================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // ==========================================
+    // NAVBAR SCROLL EFFECT
+    // ==========================================
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scroll');
+      } else {
+        navbar.classList.remove('scroll');
+      }
+    });
+    
+    // ==========================================
+    // INITIALIZE
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      createStars();
+      typeText();
+      createFloatingAnimations();
+    });
+  </script>
+</body>
+</html>
